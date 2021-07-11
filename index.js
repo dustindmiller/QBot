@@ -68,85 +68,178 @@ client.on('message', async message => {
 			address: '/cue/1_2/start',
 		}, '127.0.0.1', 53000);
 	}
-	else if (command === 'player1move') {
+	else if (command === 'p1move') {
 		// let cmdmsg = message.channel.send ('Player 1 Move Commands')
-		message.react('⬆️').then(() => message.react('⬇️').then(() => message.react('⬅️')).then(() => message.react('➡️')));
+		let ActiveP = message.guild.roles.cache.find(role => role.name === 'Active Player');
+		if (message.member.roles.cache.has(ActiveP.id)) {
+			message.react('⬆️').then(() => message.react('⬇️').then(() => message.react('⬅️')).then(() => message.react('➡️')));
 
-		const acceptedEmojis = ['⬆️', '⬇️', '⬅️', '➡️'];
+			const acceptedEmojis = ['⬆️', '⬇️', '⬅️', '➡️'];
 
-		const filter = (reaction, user) => {
+			const filter = (reaction, user) => {
 	        return acceptedEmojis.includes(reaction.emoji.name) && user.id === message.author.id;
-		};
+			};
 
-		const collector = message.createReactionCollector(filter, { time: 600000, idle: 120000 });
+			const collector = message.createReactionCollector(filter, { time: 2147483647 });
 
-		collector.on('collect', async (reaction, user) => {
-			if (reaction.emoji.name === '⬆️') {
-				udpPort.send({
-					address: '/cue/1_1/start',
-				}, '127.0.0.1', 53000);
-				reaction.users.remove(user.id);
-			}
-			else if (reaction.emoji.name === '⬇️') {
-				udpPort.send({
-					address: '/cue/1_2/start',
-				}, '127.0.0.1', 53000);
-				reaction.users.remove(user.id);
-			}
-			else if (reaction.emoji.name === '⬅️') {
-				udpPort.send({
-					address: '/cue/1_3/start',
-				}, '127.0.0.1', 53000);
-				reaction.users.remove(user.id);
-			}
-			else if (reaction.emoji.name === '➡️') {
-				udpPort.send({
-					address: '/cue/1_4/start',
-				}, '127.0.0.1', 53000);
-				reaction.users.remove(user.id);
-			}
+			collector.on('collect', async (reaction, user) => {
+				if (reaction.emoji.name === '⬆️') {
+					udpPort.send({
+						address: '/cue/P1_UP/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+				else if (reaction.emoji.name === '⬇️') {
+					udpPort.send({
+						address: '/cue/P1_DOWN/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+				else if (reaction.emoji.name === '⬅️') {
+					udpPort.send({
+						address: '/cue/P1_LEFT/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+				else if (reaction.emoji.name === '➡️') {
+					udpPort.send({
+						address: '/cue/P1_RIGHT/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
 		  });
+		}
+		else {
+			message.channel.send('Non-Active Player Message Detected.');
+		}
 
 	}
-	else if (command === 'player2move') {
+	else if (command === 'p2move') {
 		// let cmdmsg = message.channel.send ('Player 1 Move Commands')
-		message.react('⬆️').then(() => message.react('⬇️').then(() => message.react('⬅️')).then(() => message.react('➡️')));
+		let ActiveP = message.guild.roles.cache.find(role => role.name === 'Active Player');
+		if (message.member.roles.cache.has(ActiveP.id)) {
+			message.react('⬆️').then(() => message.react('⬇️').then(() => message.react('⬅️')).then(() => message.react('➡️')));
 
-		const acceptedEmojis = ['⬆️', '⬇️', '⬅️', '➡️'];
+			const acceptedEmojis = ['⬆️', '⬇️', '⬅️', '➡️'];
 
-		const filter = (reaction, user) => {
+			const filter = (reaction, user) => {
 	        return acceptedEmojis.includes(reaction.emoji.name) && user.id === message.author.id;
-		};
+			};
 
-		const collector = message.createReactionCollector(filter, { time: 600000, idle: 120000 });
+			const collector = message.createReactionCollector(filter, { time: 2147483647 });
 
-		collector.on('collect', async (reaction, user) => {
-			if (reaction.emoji.name === '⬆️') {
-				udpPort.send({
-					address: '/cue/2_1/start',
-				}, '127.0.0.1', 53000);
-				reaction.users.remove(user.id);
-			}
-			else if (reaction.emoji.name === '⬇️') {
-				udpPort.send({
-					address: '/cue/2_2/start',
-				}, '127.0.0.1', 53000);
-				reaction.users.remove(user.id);
-			}
-			else if (reaction.emoji.name === '⬅️') {
-				udpPort.send({
-					address: '/cue/2_3/start',
-				}, '127.0.0.1', 53000);
-				reaction.users.remove(user.id);
-			}
-			else if (reaction.emoji.name === '➡️') {
-				udpPort.send({
-					address: '/cue/2_4/start',
-				}, '127.0.0.1', 53000);
-				reaction.users.remove(user.id);
-			}
+			collector.on('collect', async (reaction, user) => {
+				if (reaction.emoji.name === '⬆️') {
+					udpPort.send({
+						address: '/cue/P2_UP/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+				else if (reaction.emoji.name === '⬇️') {
+					udpPort.send({
+						address: '/cue/P2_DOWN/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+				else if (reaction.emoji.name === '⬅️') {
+					udpPort.send({
+						address: '/cue/P2_LEFT/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+				else if (reaction.emoji.name === '➡️') {
+					udpPort.send({
+						address: '/cue/P2_RIGHT/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
 		  });
+		}
+	}
+	else if (command === 'p3move') {
+		// let cmdmsg = message.channel.send ('Player 1 Move Commands')
+		
+		let ActiveP = message.guild.roles.cache.find(role => role.name === 'Active Player');
+		if (message.member.roles.cache.has(ActiveP.id)) {
+			message.react('⬆️').then(() => message.react('⬇️').then(() => message.react('⬅️')).then(() => message.react('➡️')));
 
+			const acceptedEmojis = ['⬆️', '⬇️', '⬅️', '➡️'];
+
+			const filter = (reaction, user) => {
+	        return acceptedEmojis.includes(reaction.emoji.name) && user.id === message.author.id;
+			};
+
+			const collector = message.createReactionCollector(filter, { time: 2147483647 });
+
+			collector.on('collect', async (reaction, user) => {
+				if (reaction.emoji.name === '⬆️') {
+					udpPort.send({
+						address: '/cue/P3_UP/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+				else if (reaction.emoji.name === '⬇️') {
+					udpPort.send({
+						address: '/cue/P3_DOWN/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+				else if (reaction.emoji.name === '⬅️') {
+					udpPort.send({
+						address: '/cue/P3_LEFT/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+				else if (reaction.emoji.name === '➡️') {
+					udpPort.send({
+						address: '/cue/P3_RIGHT/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+		  });
+		}
+	}
+	else if (command === 'p4move') {
+		// let cmdmsg = message.channel.send ('Player 1 Move Commands')
+		let ActiveP = message.guild.roles.cache.find(role => role.name === 'Active Player');
+		if (message.member.roles.cache.has(ActiveP.id)) {
+			message.react('⬆️').then(() => message.react('⬇️').then(() => message.react('⬅️')).then(() => message.react('➡️')));
+
+			const acceptedEmojis = ['⬆️', '⬇️', '⬅️', '➡️'];
+
+			const filter = (reaction, user) => {
+	        return acceptedEmojis.includes(reaction.emoji.name) && user.id === message.author.id;
+			};
+
+			const collector = message.createReactionCollector(filter, { time: 2147483647 });
+
+			collector.on('collect', async (reaction, user) => {
+				if (reaction.emoji.name === '⬆️') {
+					udpPort.send({
+						address: '/cue/P4_UP/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+				else if (reaction.emoji.name === '⬇️') {
+					udpPort.send({
+						address: '/cue/P4_DOWN/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+				else if (reaction.emoji.name === '⬅️') {
+					udpPort.send({
+						address: '/cue/P4_LEFT/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+				else if (reaction.emoji.name === '➡️') {
+					udpPort.send({
+						address: '/cue/P4_RIGHT/start',
+					}, '127.0.0.1', 53000);
+					reaction.users.remove(user.id);
+				}
+		  });
+		}
 	}
 
 });
